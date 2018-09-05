@@ -12,10 +12,6 @@
       "lazy": {
         "assets": [
           {
-            "uri": "/engines-dist/lazy/assets/engine-vendor.js",
-            "type": "js"
-          },
-          {
             "uri": "/engines-dist/lazy/assets/engine.css",
             "type": "css"
           },
@@ -94,10 +90,6 @@
     "bundles": {
       "lazy-in-lazy": {
         "assets": [
-          {
-            "uri": "/engines-dist/lazy-in-lazy/assets/engine-vendor.js",
-            "type": "js"
-          },
           {
             "uri": "/engines-dist/lazy-in-lazy/assets/engine.css",
             "type": "css"
