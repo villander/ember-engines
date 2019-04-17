@@ -4,15 +4,14 @@ import { getOwner } from '@ember/application';
 /*
   Creates an aliased form of a method that properly resolves external routes.
 */
-function externalAlias(methodName) {
-  return function _externalAliasMethod(routeName, ...args) {
-    let externalRoute = getOwner(this)._getExternalRoute(routeName);
-    let router = this._router || this.router;
-    return router[methodName](externalRoute, ...args);
+function routerAlias(methodName) {
+  return function _routerAliasMethod(routeName, ...args) {
+    const router = getOwner(this).lookup('service:router');
+    return router[methodName](routeName, ...args);
   };
 }
 
 Route.reopen({
-  transitionToExternal: externalAlias('transitionTo'),
-  replaceWithExternal: externalAlias('replaceWith'),
+  transitionToExternal: routerAlias('transitionToExternal'),
+  replaceWithExternal: routerAlias('replaceWithExternal'),
 });
