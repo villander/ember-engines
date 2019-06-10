@@ -1,25 +1,26 @@
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { setupEngineRenderingTest, setupEngineTest } from 'ember-engines/test-support';
+import { setupTest, setupRenderingTest } from 'ember-qunit';
+import { setupEngineTest } from 'ember-engines/test-support';
 
-module('Acceptance | Starting Engines', function () {
+module('Integration | Starting Engines', function () {
 
   module('setupEngineTest', function (hooks) {
-
+    setupTest(hooks);
     setupEngineTest(hooks, 'ember-blog');
 
     test('it exists', function (assert) {
       assert.expect(1);
 
-      let route = this.owner.lookup('route:post.likes');
+      let route = this.engine.lookup('route:post.likes');
       assert.ok(route);
     });
   });
 
   module('setupEngineRenderingTest', function (hooks) {
-
-    setupEngineRenderingTest(hooks, 'ember-blog');
+    setupRenderingTest(hooks);
+    setupEngineTest(hooks, 'ember-blog');
 
     test('should change colors', async function(assert) {
       assert.expect(2);

@@ -1,8 +1,8 @@
-import { setupRenderingTest, setupTest } from 'ember-qunit';
-import engineResolverFor from 'ember-engines/test-support/engine-resolver-for';
-
 /**
  * Used to set up engine resolver for a unit test.
+ *
+ *   Responsible for:
+ *     - create an engine object and set it on the provided context (e.g. `this.engine`)
  *
  * @method setupEngineTest
  * @param {NestedHooks} hooks
@@ -11,19 +11,10 @@ import engineResolverFor from 'ember-engines/test-support/engine-resolver-for';
  */
 
 export function setupEngineTest(hooks, engineName) {
-  // eslint-disable-next-line ember/no-restricted-resolver-tests
-  setupTest(hooks, { resolver: engineResolverFor(engineName) });
-}
-
-/**
- * Used to set up engine resolver for a integration test.
- *
- * @method setupEngineRenderingTest
- * @param {NestedHooks} hooks
- * @param {String} engineName
- * @public
- */
-
-export function setupEngineRenderingTest(hooks, engineName) {
-  setupRenderingTest(hooks, { resolver: engineResolverFor(engineName) });
+  hooks.beforeEach(function() {
+    let engineInstance = this.owner.buildChildEngineInstance(engineName);
+    return engineInstance.boot().then(() => {
+      this.engine = engineInstance;
+    });
+  });
 }
