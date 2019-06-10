@@ -12,7 +12,7 @@ module('Acceptance | Starting Engines', function () {
     test('it exists', function (assert) {
       assert.expect(1);
 
-      let route = this.owner.lookup('route:index');
+      let route = this.owner.lookup('route:post.likes');
       assert.ok(route);
     });
   });
