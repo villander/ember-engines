@@ -1,5 +1,6 @@
 /**
- * Used to set up engine resolver for a unit test.
+ * Used to set up engine test. Must be called after one of the
+ * `ember-qunit` `setup*Test()` methods.
  *
  *   Responsible for:
  *     - create an engine object and set it on the provided context (e.g. `this.engine`)
