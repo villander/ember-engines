@@ -19,7 +19,7 @@ export function setupEngineTest(hooks, engineName, mountPoint) {
     let engineLoadPromise = this.owner.hasRegistration(`engine:${engineName}`)
       ? RSVP.Promise.resolve()
       : loadEngine(engineName, mountPoint);
-    engineLoadPromise.then((engineInstance) => {
+    return engineLoadPromise.then((engineInstance) => {
       this.engine = engineInstance;
     });
   });
