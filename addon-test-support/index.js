@@ -11,21 +11,24 @@ import { getContext } from '@ember/test-helpers/setup-context';
  * @method setupEngineTest
  * @param {NestedHooks} hooks
  * @param {String} engineName
+ * @param {String} mountPoint
  * @public
  */
 
 export function setupEngineTest(hooks, engineName, mountPoint) {
   hooks.beforeEach(function () {
     let engineLoadPromise = this.owner.hasRegistration(`engine:${engineName}`)
-      ? RSVP.Promise.resolve()
-      : loadEngine(engineName, mountPoint);
+      ? RSVP.Promise.resolve(this.owner.buildChildEngineInstance(engineName))
+      : loadEngine(mountPoint);
     return engineLoadPromise.then((engineInstance) => {
-      this.engine = engineInstance;
+      return engineInstance.boot().then(() => {
+        this.engine = engineInstance;
+      });
     });
   });
 }
 
-async function loadEngine(engineName, mountPoint) {
+async function loadEngine(mountPoint) {
   let context = getContext();
   const { owner } = context;
 
@@ -45,12 +48,6 @@ async function loadEngine(engineName, mountPoint) {
   const instance = await router._loadEngineInstance(
     router._engineInfoByRoute[mountPoint],
   );
-
-  // Boot the engine up, to mitigte potential race conditions
-  await instance.boot();
-
-  // Add the engine to the application registry for later use
-  owner.register(`-engine-instance:${engineName}-${mountPoint}`, instance, { instantiate: false });
 
   return instance;
 }
