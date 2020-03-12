@@ -1,27 +1,19 @@
-import { moduleForComponent, test } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
-import engineResolverFor from 'ember-engines/test-support/engine-resolver-for';
+import { module, test } from "qunit";
+import { setupRenderingTest } from "ember-qunit";
+import { render } from "@ember/test-helpers";
+import hbs from "htmlbars-inline-precompile";
+import engineResolverFor from "ember-engines/test-support/engine-resolver-for";
 
-moduleForComponent(
-  'hello-name',
-  'Integration | Component | engine-resolver-for',
-  {
-    integration: true,
-    resolver: engineResolverFor('ember-blog'),
-  }
-);
-
-test('component renders properly after lookup with engine-resolver-for', function(
-  assert
+module("Integration | Component | engine-resolver-for | hello-name", function(
+  hooks
 ) {
-  assert.expect(1);
+  setupRenderingTest(hooks, { resolver: engineResolverFor("ember-blog") });
 
-  this.render(hbs`{{#hello-name name="Tom"}}{{/hello-name}}`);
+  test("component renders properly after lookup with engine-resolver-for", async function(assert) {
+    assert.expect(1);
 
-  assert.equal(
-    this.$()
-      .text()
-      .trim(),
-    'Hello, Tom!'
-  );
+    await render(hbs`{{#hello-name}}{{/hello-name}}`);
+
+    assert.equal(this.element.innerText.trim(), "Hello, Jerry!");
+  });
 });
